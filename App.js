@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { auth, db } from "./firebase";
+// screen
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [signIn, setSigneIn] = useState(false);
+  const [user, setUser] = useState(false);
+  const [og, setOg] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  //check if the user is in the database
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      const userRef = db.collection("User");
+      const snapshot = userRef.where(
+        "email",
+        "==",
+        user.email.trim().toLowerCase()
+      );
+      //control of the user role
+      snapshot.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          if (doc.data().role == "Utilisateur") {
+            setUser(true);
+          }
+          if (doc.data().role == "OG") {
+            setOg(true);
+          }
+        });
+      });
+      setSigneIn(true);
+    } else {
+      setSigneIn(false);
+      setUser(false);
+      setOg(false);
+    }
+  });
+  return <NavigationContainer></NavigationContainer>;
+}
