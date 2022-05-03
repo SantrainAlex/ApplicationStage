@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { auth, db } from "./firebase";
 // screen
+import LoginScreen from "./screens/sessions/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -38,5 +39,21 @@ export default function App() {
       setOg(false);
     }
   });
-  return <NavigationContainer></NavigationContainer>;
+  return (
+    <NavigationContainer>
+      {signIn ? (
+        <></>
+      ) : (
+        <>
+          <Stack.Navigator mode="card">
+            <Stack.Screen
+              name="signIn"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </>
+      )}
+    </NavigationContainer>
+  );
 }
