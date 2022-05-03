@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { auth, db } from "./firebase";
 // screen
 import LoginScreen from "./screens/sessions/LoginScreen";
+import SignUpScreen from "./screens/sessions/SignUpScreen";
 
 const Stack = createStackNavigator();
 
@@ -49,6 +50,11 @@ export default function App() {
             <Stack.Screen
               name="signIn"
               component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

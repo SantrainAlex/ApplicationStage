@@ -17,7 +17,7 @@ import { auth } from "../../firebase";
 const { height } = Dimensions.get("screen");
 
 export default LoginScreen = ({ navigation }) => {
-  const { control, handleSubmit, errors } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
     const { email, password } = data;
@@ -72,7 +72,15 @@ export default LoginScreen = ({ navigation }) => {
           </View>
           <View style={Styles.containerButton}>
             <TouchableOpacity
-              style={(Styles.btn, { backgroundColor: "#FB7445" })}
+              style={
+                (Styles.btn,
+                {
+                  backgroundColor: "#FB7445",
+                  borderRadius: 10,
+                  width: 200,
+                  marginBottom: 20,
+                })
+              }
               onPress={handleSubmit(onSubmit)}
             >
               <LinearGradient
@@ -84,7 +92,7 @@ export default LoginScreen = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={(Styles.btn, { color: "#FB7445" })}
-              //onPress={() => navigation.navigate("register")}
+              onPress={() => navigation.navigate("SignUp")}
             >
               <Text style={(Styles.textBtn, { color: "#FB7445" })}>
                 S'inscrire
