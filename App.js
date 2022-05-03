@@ -5,6 +5,7 @@ import { auth, db } from "./firebase";
 // screen
 import LoginScreen from "./screens/sessions/LoginScreen";
 import SignUpScreen from "./screens/sessions/SignUpScreen";
+import HomeScreenParticipant from "./screens/HomeScreenParticipant";
 
 const Stack = createStackNavigator();
 
@@ -43,7 +44,17 @@ export default function App() {
   return (
     <NavigationContainer>
       {signIn ? (
-        <></>
+        user ? (
+          <Stack.Navigator mode="card">
+            <Stack.Screen
+              name="HomeScreenParticipant"
+              component={HomeScreenParticipant}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        ) : (
+          <></>
+        )
       ) : (
         <>
           <Stack.Navigator mode="card">
