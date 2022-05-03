@@ -6,13 +6,17 @@ import { auth, db } from "./firebase";
 import LoginScreen from "./screens/sessions/LoginScreen";
 import SignUpScreen from "./screens/sessions/SignUpScreen";
 import HomeScreenParticipant from "./screens/HomeScreenParticipant";
+import TimerScreen from "./screens/TimerScreen";
+import Sinscrire from "./screens/inscription/Sinscrire";
+import HomeScreenOg from "./screens/HomeScreenOg";
+import Ajt from "./screens/Ajt/Ajt";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [signIn, setSigneIn] = useState(false);
   const [user, setUser] = useState(false);
-  const [og, setOg] = useState(false);
+  const [OGIn, setOg] = useState(false);
 
   //check if the user is in the database
   auth.onAuthStateChanged((user) => {
@@ -49,6 +53,34 @@ export default function App() {
             <Stack.Screen
               name="HomeScreenParticipant"
               component={HomeScreenParticipant}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="TimerScreen"
+              component={TimerScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Sinscrire"
+              component={Sinscrire}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        ) : OGIn ? (
+          <Stack.Navigator mode="card">
+            <Stack.Screen
+              name="HomeScreenOg"
+              component={HomeScreenOg}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="TimerScreen"
+              component={TimerScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Ajt"
+              component={Ajt}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

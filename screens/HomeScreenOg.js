@@ -11,13 +11,13 @@ import { auth } from "../firebase";
 //screen
 import EnCour from "./activiter/EnCour";
 import Terminer from "./activiter/Terminer";
-export default class HomeScreenParticipant extends Component {
+export default class HomeScreenOg extends Component {
   constructor(props) {
     super(props);
   }
 
   sinscrire = () => {
-    this.props.navigation.navigate("Sinscrire");
+    this.props.navigation.navigate("Ajt");
   };
   deconnection = () => {
     auth.signOut();
@@ -42,7 +42,7 @@ export default class HomeScreenParticipant extends Component {
         <Text style={Styles.textActiviter}>Activiter terminer</Text>
         <Terminer navigation={this.props.navigation} />
         <TouchableOpacity style={Styles.btnAdd} onPress={this.sinscrire}>
-          <Text style={Styles.textBtn}>s'inscrire a une activiter</Text>
+          <Text style={Styles.textBtn}>ajouter une activiter</Text>
         </TouchableOpacity>
       </ImageBackground>
     );
