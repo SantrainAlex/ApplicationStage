@@ -12,6 +12,12 @@ import { auth, db } from "../firebase";
 import BarreNav from "./navigation/BarreNav";
 import TimerContaine from "./GrandTimer/timerContaine";
 export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arg: 0,
+    };
+  }
   deconnection = () => {
     auth.signOut(); // Undefined
   };
@@ -31,7 +37,7 @@ export default class HomeScreen extends Component {
         <View style={{ height: 250 }}>
           <TimerContaine />
         </View>
-        <BarreNav />
+        <BarreNav nom={this.props.route.params.otherParams} />
       </ImageBackground>
     );
   }

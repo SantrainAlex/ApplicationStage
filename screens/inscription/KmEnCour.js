@@ -19,21 +19,16 @@ export default class KmEnCour extends Component {
       .orderBy("Date", "desc")
       .where("Nom", "==", this.props.data);
 
-    query.onSnapshot(
-      (querySnapshot) => {
-        key = `${querySnapshot.size}`;
-        listEnCour = [];
-        querySnapshot.forEach((doc) => {
-          listEnCour.push(doc.data().nbrKM);
-        });
-        this.setState({
-          test: 1,
-        });
-      },
-      (err) => {
-        console.log(`Encountered error: ${err}`);
-      }
-    );
+    query.onSnapshot((querySnapshot) => {
+      key = `${querySnapshot.size}`;
+      listEnCour = [];
+      querySnapshot.forEach((doc) => {
+        listEnCour.push(doc.data().nbrKM);
+      });
+      this.setState({
+        test: 1,
+      });
+    });
   }
 
   render() {

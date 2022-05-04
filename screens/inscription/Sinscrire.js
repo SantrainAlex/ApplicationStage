@@ -12,7 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 
 import { TextInput, Button } from "react-native-paper";
 
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { LinearGradient } from "expo-linear-gradient";
 //screen
 import InscrptionEnCour from "./NomEnCour";
@@ -29,30 +29,23 @@ const Sinscrire = ({ navigation }) => {
       Nom = message.Nom;
     }
   });
-  KmSelectService.getKmSelectService().subscribe((message) => {
-    if (message) {
-      Km = message.km;
-    }
-  });
   const onSubmit = (data) => {
     //contoler si il et dans la db
-    const { prenom, email } = data;
 
     const utilisateursRef = db.collection("Participant");
 
     const snapshot = utilisateursRef.where(
       "prenom",
       "==",
-      prenom.trim().toLowerCase()
+      auth.currentUser.providerData[0].uid
     );
 
     snapshot.get().then((snapshot) => {
       if (snapshot.empty) {
         const userdata = {
           Nom: Nom,
-          prenom: prenom,
-          nbrKM: Km,
-          email: email,
+          prenom: auth.currentUser.providerData[0].uid,
+          email: auth.currentUser.providerData[0].uid,
         };
         db.collection("Participant").add(userdata);
         navigation.goBack();
@@ -68,42 +61,6 @@ const Sinscrire = ({ navigation }) => {
     >
       <Animatable.View animation="fadeInUpBig" style={Styles.header}>
         <InscrptionEnCour />
-        <View style={Styles.action}>
-          <Controller
-            control={control}
-            render={({ onChange, onBlur, value }) => (
-              <TextInput
-                placeholder="Nom et prenom "
-                style={Styles.textInput}
-                mode="outlined"
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-              />
-            )}
-            name="prenom"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-        </View>
-        <View style={Styles.action}>
-          <Controller
-            control={control}
-            render={({ onChange, onBlur, value }) => (
-              <TextInput
-                placeholder="email "
-                style={Styles.textInput}
-                mode="outlined"
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-              />
-            )}
-            name="email"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-        </View>
 
         <View style={Styles.button}>
           <TouchableOpacity
@@ -164,6 +121,7 @@ const Styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
+    marginTop: 20,
   },
   signIn: {
     width: "100%",

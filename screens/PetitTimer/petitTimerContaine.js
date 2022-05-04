@@ -88,13 +88,14 @@ export default class App extends Component {
   };
 
   stop = () => {
+    clearInterval(this.timer);
     const { laps, now, start, timerTotal } = this.state;
     const [firstLap, ...other] = laps;
-    this.setState({
-      laps: [firstLap + now - start, ...other],
-      start: 0,
-      now: 0,
-    });
+    // this.setState({
+    //   laps: [firstLap + now - start, ...other],
+    //   start: 0,
+    //   now: 0,
+    // });
   };
   reset = () => {
     clearInterval(this.timer);

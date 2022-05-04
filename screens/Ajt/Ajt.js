@@ -8,18 +8,29 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useForm, Controller } from "react-hook-form";
+import moment from "moment";
 
 import { TextInput } from "react-native-paper";
 
 import { db } from "../../firebase";
 import { LinearGradient } from "expo-linear-gradient";
+//services
+import { NomAjtSelectService } from "../_services/NomPourAjt.service";
+//screen
+import NomAjt from "./Nom";
 
 const Ajt = ({ navigation }) => {
   const { control, handleSubmit, errors, watch, register } = useForm();
+  let Nom;
+  NomAjtSelectService.getNomAjtSelectService().subscribe((message) => {
+    if (message) {
+      Nom = message.Nom;
+    }
+  });
 
   const onSubmit = (data) => {
     //contoler si il et dans la db
-    const { Nom, nbrKM, Date } = data;
+    const { nbrKM } = data;
 
     const utilisateursRef = db.collection("Activités");
 
@@ -28,11 +39,12 @@ const Ajt = ({ navigation }) => {
       "==",
       Nom.trim().toLowerCase()
     );
+    var Date = moment().utcOffset("+01:00").format("YYYY-MM-DD ");
 
     snapshot.get().then((snapshot) => {
       if (snapshot.empty) {
         const userdata = {
-          Nom: Nom.trim().toLowerCase(),
+          Nom: Nom,
           nbrKM: nbrKM + " KM",
           Date: Date,
           finish: "false",
@@ -53,24 +65,7 @@ const Ajt = ({ navigation }) => {
       style={styles.ImageBackground}
     >
       <Animatable.View animation="fadeInUpBig" style={styles.header}>
-        <View style={styles.action}>
-          <Controller
-            control={control}
-            render={({ onChange, onBlur, value }) => (
-              <TextInput
-                placeholder="Nom"
-                style={styles.textInput}
-                mode="outlined"
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-              />
-            )}
-            name="Nom"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-        </View>
+        <NomAjt />
         <View style={styles.action}>
           <Controller
             control={control}
@@ -86,27 +81,6 @@ const Ajt = ({ navigation }) => {
               />
             )}
             name="nbrKM"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-        </View>
-        <View style={styles.action}>
-          <Controller
-            control={control}
-            render={({ onChange, onBlur, value }) => (
-              <TextInput
-                placeholder="12/12/2021"
-                mode="outlined"
-                pattern="[0-9]*\.?[0-9]*"
-                keyboardType="numeric"
-                maxLength={10}
-                style={styles.textInput}
-                onBlur={onBlur}
-                onChangeText={(value) => onChange(value)}
-                value={value}
-              />
-            )}
-            name="Date"
             rules={{ required: true }}
             defaultValue=""
           />

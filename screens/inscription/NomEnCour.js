@@ -19,21 +19,16 @@ export default class NomEnCour extends Component {
       .orderBy("Date", "desc")
       .where("finish", "==", "false");
 
-    query.onSnapshot(
-      (querySnapshot) => {
-        key = `${querySnapshot.size}`;
-        listEnCour = [];
-        querySnapshot.forEach((doc) => {
-          listEnCour.push(doc.data().Nom);
-        });
-        this.setState({
-          test: 1,
-        });
-      },
-      (err) => {
-        console.log(`Encountered error: ${err}`);
-      }
-    );
+    query.onSnapshot((querySnapshot) => {
+      key = `${querySnapshot.size}`;
+      listEnCour = [];
+      querySnapshot.forEach((doc) => {
+        listEnCour.push(doc.data().Nom);
+      });
+      this.setState({
+        test: 1,
+      });
+    });
   }
 
   render() {

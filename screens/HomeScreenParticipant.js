@@ -41,9 +41,6 @@ export default class HomeScreenParticipant extends Component {
         <EnCour navigation={this.props.navigation} />
         <Text style={Styles.textActiviter}>Activiter terminer</Text>
         <Terminer navigation={this.props.navigation} />
-        <TouchableOpacity style={Styles.btnAdd} onPress={this.sinscrire}>
-          <Text style={Styles.textBtn}>s'inscrire a une activiter</Text>
-        </TouchableOpacity>
       </ImageBackground>
     );
   }
@@ -61,18 +58,5 @@ const Styles = StyleSheet.create({
     color: "#FB7445",
     fontSize: 20,
     marginTop: 10,
-  },
-  btnAdd: {
-    backgroundColor: "#FB7445",
-    height: 20,
-    width: "100%",
-    fontSize: 50,
-    borderRadius: 20,
-    position: "absolute",
-    bottom: 10,
-  },
-  textBtn: {
-    textAlign: "center",
-    color: "#fff",
   },
 });

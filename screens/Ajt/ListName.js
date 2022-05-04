@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
-import { NomSelectService } from "../_services/NomSelect.service";
-//screen
-import KmEnCour from "./KmEnCour";
+import { NomAjtSelectService } from "../_services/NomPourAjt.service";
 
 let countries = [];
 let NomSelectionner = "";
@@ -38,8 +36,8 @@ const ListName = (props) => {
         defaultValue={countries[0]}
         onSelect={(selectedItem, index) => {
           select(selectedItem);
-          NomSelectService.clearNomSelectService();
-          NomSelectService.sendNomSelectService(selectedItem);
+          NomAjtSelectService.clearNomAjtSelectService();
+          NomAjtSelectService.sendNomAjtSelectService(selectedItem);
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
           // text represented after item is selected

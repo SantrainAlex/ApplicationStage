@@ -9,6 +9,8 @@ import {
 import PetitminiTimer from "../PetitTimer/petitTimerContaine";
 import { participantService } from "../_services/participant.service";
 import { auth, db } from "../../firebase";
+import Popup from "../PetitTimer/PopupNom";
+import { NewPrenomSelectService } from "../_services/Newprenom";
 let participant = [];
 let nombre = 1;
 export default class ParticipantsScreen extends Component {
@@ -19,28 +21,6 @@ export default class ParticipantsScreen extends Component {
     };
   }
 
-  async UNSAFE_componentWillMount() {
-    participant = [];
-    let Name = this.props.route.params.prenom;
-    const query = await db.collection("Participant").where("Nom", "==", Name);
-    query.onSnapshot((querySnapshot) => {
-      key = querySnapshot.size;
-      querySnapshot.forEach((doc) => {
-        if (doc.data().prenom != []) {
-          participant.push(doc.data().prenom);
-          this.sendparticipant();
-          this.setState({
-            test: 1,
-          });
-        } else {
-          participant = [];
-        }
-      });
-    });
-    this.setState({
-      test: 1,
-    });
-  }
   componentDidMount() {
     this.setState({
       test: 1,
@@ -70,6 +50,17 @@ export default class ParticipantsScreen extends Component {
   };
 
   render() {
+    NewPrenomSelectService.getNewPrenomSelectService().subscribe((message) => {
+      if (message) {
+        if (participant.includes(message.Nom) == false) {
+          participant.pop();
+          participant.push(message.Nom);
+          this.add();
+          participant.pop();
+        }
+        //participant.push(message.Nom);
+      }
+    });
     return (
       <View style={{ height: 390 }}>
         <TouchableOpacity style={Styles.Button_add} onPress={this.add}>
@@ -81,9 +72,8 @@ export default class ParticipantsScreen extends Component {
           renderItem={({ item }) => {
             return (
               <View style={{ height: 50, marginTop: 5 }}>
-                <Text style={{ color: "#fff", textAlign: "center" }}>
-                  Participant {item}
-                </Text>
+                <Popup item={item} />
+
                 <PetitminiTimer participant={item} />
               </View>
             );

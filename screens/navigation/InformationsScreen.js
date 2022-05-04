@@ -20,25 +20,19 @@ export default class InformationsScreen extends Component {
       .collection("Activités")
       .where("Nom", "==", this.props.route.params.prenom);
 
-    await query.onSnapshot(
-      (querySnapshot) => {
-        id = "";
-        querySnapshot.forEach((doc) => {
-          console.log(doc.data());
-          this.setState({
-            date: doc.data().Date,
-            Nom: doc.data().Nom,
-            nbrKM: doc.data().nbrKM,
-            AltiMax: doc.data().AltiMax,
-            AltiMoyenne: doc.data().AltiMoyenne,
-            AltiMin: doc.data().AltiMin,
-          });
+    await query.onSnapshot((querySnapshot) => {
+      id = "";
+      querySnapshot.forEach((doc) => {
+        this.setState({
+          date: doc.data().Date,
+          Nom: doc.data().Nom,
+          nbrKM: doc.data().nbrKM,
+          AltiMax: doc.data().AltiMax,
+          AltiMoyenne: doc.data().AltiMoyenne,
+          AltiMin: doc.data().AltiMin,
         });
-      },
-      (err) => {
-        console.log(`Encountered error: ${err}`);
-      }
-    );
+      });
+    });
   }
 
   render() {

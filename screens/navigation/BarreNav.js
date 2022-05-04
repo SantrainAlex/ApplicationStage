@@ -64,7 +64,7 @@ const BarreNav = (props) => {
         <Tab.Screen
           name={participantsName}
           component={ParticipantsScreen}
-          initialParams={{ prenom: props.prenom }}
+          initialParams={{ prenom: props.nom }}
         />
         <Tab.Screen name={tourScreenName} component={TourScreen} />
         <Tab.Screen
